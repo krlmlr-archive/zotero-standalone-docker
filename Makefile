@@ -1,13 +1,20 @@
 all: test
 
-CONTAINER_NAME=debian-ssh:latest
+PARENT_NAME=$(shell sed -r -n '/^FROM/ {s/^FROM +//;p}' Dockerfile)
+CONTAINER_NAME=zotero:latest
 PORT=2223
 
 killall: .FORCE
 	docker kill $$(docker ps | sed -r -n '/^[^ ]+ +$(CONTAINER_NAME) / {s/ .*$$//;p}')
 
-build: .FORCE
+pull: .FORCE
+	docker pull $(PARENT_NAME)
+
+build: pull .FORCE
 	docker build -t $(CONTAINER_NAME) .
+
+rebuild: pull .FORCE
+	docker build --no-cache -t $(CONTAINER_NAME) .
 
 test: build .FORCE
 	docker run -d -p $(PORT):22 -e SSH_KEY="$$(cat ~/.ssh/id_rsa.pub)" $(CONTAINER_NAME)
