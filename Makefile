@@ -1,7 +1,8 @@
 all: test
 
 PARENT_NAME=$(shell sed -r -n '/^FROM/ {s/^FROM +//;p}' Dockerfile)
-CONTAINER_NAME=zotero:latest
+PROJECT=zotero
+CONTAINER_NAME=$(PROJECT):$(shell git rev-parse --abbrev-ref HEAD | sed 's/master/latest/')
 PORT=2223
 DOCKER_USER=docker
 
@@ -28,5 +29,8 @@ debug-ssh: build .FORCE
 
 debug-connect: .FORCE
 	ssh $(DOCKER_USER)@localhost -p $(PORT) -o "StrictHostKeyChecking=no" env
+
+debug-bash: build .FORCE
+	docker run -ti -u $(DOCKER_USER) $(CONTAINER_NAME) bash
 
 .FORCE:
