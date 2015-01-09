@@ -1,5 +1,7 @@
-FROM krlmlr/debian-ssh:jessie
-
+FROM krlmlr/debian-ssh:latest
+#
+#
+#
 MAINTAINER "Kirill Müller" krlmlr+docker@mailbox.org
 
 RUN apt-get update -qq && \
