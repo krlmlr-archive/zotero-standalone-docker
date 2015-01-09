@@ -6,6 +6,9 @@ CONTAINER_NAME=$(PROJECT):$(shell git rev-parse --abbrev-ref HEAD | sed 's/maste
 PORT=2223
 DOCKER_USER=docker
 
+distribute: .FORCE
+	for b in $$(git branch --no-merged); do git merge-into $$b --no-edit; done
+
 killall: .FORCE
 	docker kill $$(docker ps | sed -r -n '/^[^ ]+ +$(CONTAINER_NAME) / {s/ .*$$//;p}')
 
