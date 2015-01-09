@@ -33,4 +33,7 @@ debug-connect: .FORCE
 debug-bash: build .FORCE
 	docker run -ti -u $(DOCKER_USER) $(CONTAINER_NAME) bash
 
+debug-bash-root: build .FORCE
+	docker run -ti $(CONTAINER_NAME) bash
+
 .FORCE:
