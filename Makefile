@@ -11,7 +11,7 @@ killall: .FORCE
 pull: .FORCE
 	docker pull $(PARENT_NAME)
 
-build: pull .FORCE
+build: .FORCE
 	docker build -t $(CONTAINER_NAME) .
 
 rebuild: pull .FORCE
