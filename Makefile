@@ -24,9 +24,9 @@ test: build .FORCE
 	docker kill $$(docker ps -ql)
 
 debug-ssh: build .FORCE
-	docker run -p $(PORT):22 -e SSH_KEY="$$(cat ~/.ssh/id_rsa.pub)" $(CONTAINER_NAME)
+	docker run -p $(PORT):22 -e SSH_KEY="$$(cat ~/.ssh/id_rsa.pub)" -u $(DOCKER_USER) $(CONTAINER_NAME)
 
 debug-connect: .FORCE
-	ssh root@localhost -p $(PORT) -o "StrictHostKeyChecking=no" env
+	ssh $(DOCKER_USER)@localhost -p $(PORT) -o "StrictHostKeyChecking=no" env
 
 .FORCE:
