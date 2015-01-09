@@ -1,4 +1,4 @@
-FROM krlmlr/debian-ssh:latest
+FROM krlmlr/debian-ssh:wheezy
 #
 #
 #
